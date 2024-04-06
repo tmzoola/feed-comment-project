@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+	My Networks Page
+{% endblock %}
+
+{% block content %}
+	<h1>My Networks Page</h1>
+    <hr>
+
+    {% for network in networks %}
+            <div class="row">
+
+            <div class="col-1">
+                <img src="{{ network.from_user.photo.url }}" alt="user photos" height="100px" width="100px" style="border-radius: 50%; margin-bottom: 10px;">
+            </div>
+
+            <div class="col-6">
+                <p><b>{{ network.from_user.username }}</b></p>
+                <p>{{ network.from_user.email }}</p>
+            </div>
+            <div class="col">
+                <a href="{% url 'users:ignore_friend' network.id %}" class="btn btn-outline-secondary">Ignore</a>
+                <a href="{% url 'users:accept_friend' network.id %}" class="btn btn-outline-primary">Accept</a>
+            </div>
+        </div>
+
+    {% endfor %}
+
+
+
+
+    	<h1>My Friends</h1>
+    <hr>
+
+    {% for friend in user.friends.all %}
+            <div class="row">
+
+            <div class="col-1">
+                <img src="{{ friend.photo.url }}" alt="user photos" height="100px" width="100px" style="border-radius: 50%; margin-bottom: 10px;">
+            </div>
+
+            <div class="col-6">
+                <p><b>{{ friend.username }}</b></p>
+                <p>{{ friend.email }}</p>
+            </div>
+            <div class="col">
+                <a href="{% url 'users:delete_friend' friend.id %}" class="btn btn-outline-danger">Delete</a>
+
+            </div>
+        </div>
+
+    {% endfor %}
+
+
+
+
+{% endblock %}
