@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from places.models import Place
+from places.models import Place, Comment
+from users.models import User
 
 class PlaceSerializer(serializers.Serializer):
     name = serializers.CharField()
@@ -46,3 +47,16 @@ class PlaceSerializer(serializers.Serializer):
         )
 
         return validated_data
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'photo')
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    place = PlaceSerializer()
+    class Meta:
+        model = Comment
+        fields = ('comment_text', 'stars_given', 'created_at', 'user', 'place')
